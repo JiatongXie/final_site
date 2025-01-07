@@ -34,7 +34,7 @@ function saveProgress() {
     });
     progressData.push(subjectData);
   });
-  fetch("http://localhost/progress", {
+  fetch("/api/progress", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -44,7 +44,7 @@ function saveProgress() {
 }
 
 function loadProgress() {
-  fetch("http://localhost/progress")
+  fetch("/api/progress")
     .then((response) => response.json())
     .then((progressData) => {
       document.querySelectorAll(".subject").forEach((subject, subjectIndex) => {
