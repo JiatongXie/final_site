@@ -1,3 +1,4 @@
+// 用于ubutnu服务器部署
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
