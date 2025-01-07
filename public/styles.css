@@ -19,6 +19,7 @@ h1 {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
+  overflow: hidden; /* 确保进度块不会蹦出条目之外 */
 }
 .subject h2 {
   margin: 0;
@@ -31,6 +32,7 @@ h1 {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap; /* 确保进度块在容器内换行 */
 }
 .progress-rectangle {
   width: 80px;
