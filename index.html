@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>25Winter Final</title>
+    <style>
+      body {
+        font-family: "Roboto", sans-serif;
+        margin: 20px;
+        background-color: #f0f2f5;
+        color: #333;
+      }
+      h1 {
+        text-align: center;
+        color: #222;
+        font-size: 2em;
+        margin-bottom: 20px;
+      }
+      .subject {
+        margin: 15px 0;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+      }
+      .subject h2 {
+        margin: 0;
+        font-size: 1.5em;
+        color: #444;
+        flex: 1;
+      }
+      .progress-container {
+        margin-top: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .progress-rectangle {
+        width: 80px;
+        height: 60px;
+        background-color: #ddd;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2em;
+        color: #fff;
+        margin: 0 5px;
+      }
+      .progress-rectangle.completed {
+        background-color: #4caf50;
+      }
+      .divider {
+        width: 0px;
+        height: 100px;
+        background-color: transparent;
+        border-left: 2px dotted red;
+        margin: 0 0px;
+      }
+    </style>
+    <script>
+      const enableProgressClick = true; // 切换功能开启或关闭
+
+      document.addEventListener("DOMContentLoaded", () => {
+        if (!enableProgressClick) return;
+
+        const subjects = document.querySelectorAll(".subject");
+        subjects.forEach((subject) => {
+          const progressRectangles = subject.querySelectorAll(
+            ".progress-rectangle"
+          );
+          progressRectangles.forEach((rectangle, index) => {
+            rectangle.addEventListener("click", () => {
+              if (rectangle.classList.contains("completed")) {
+                progressRectangles.forEach((rect) =>
+                  rect.classList.remove("completed")
+                );
+              } else {
+                for (let i = 0; i <= index; i++) {
+                  progressRectangles[i].classList.add("completed");
+                }
+              }
+              saveProgress();
+            });
+          });
+        });
+
+        loadProgress();
+      });
+
+      function saveProgress() {
+        const progressData = [];
+        document.querySelectorAll(".subject").forEach((subject) => {
+          const subjectData = [];
+          subject
+            .querySelectorAll(".progress-rectangle")
+            .forEach((rectangle) => {
+              subjectData.push(rectangle.classList.contains("completed"));
+            });
+          progressData.push(subjectData);
+        });
+        fetch("http://localhost:3000/progress", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(progressData),
+        });
+      }
+
+      function loadProgress() {
+        fetch("http://localhost:3000/progress")
+          .then((response) => response.json())
+          .then((progressData) => {
+            document
+              .querySelectorAll(".subject")
+              .forEach((subject, subjectIndex) => {
+                const subjectData = progressData[subjectIndex];
+                subject
+                  .querySelectorAll(".progress-rectangle")
+                  .forEach((rectangle, rectIndex) => {
+                    if (subjectData[rectIndex]) {
+                      rectangle.classList.add("completed");
+                    } else {
+                      rectangle.classList.remove("completed");
+                    }
+                  });
+              });
+          });
+      }
+    </script>
+  </head>
+  <body>
+    <h1>25Winter Final Progress</h1>
+
+    <div class="subject">
+      <h2>認知</h2>
+      <div class="progress-container">
+        <div class="progress-rectangle"></div>
+        <div class="progress-rectangle"></div>
+        <div class="progress-rectangle"></div>
+        <div class="divider"></div>
+        <div class="progress-rectangle"></div>
+        <div class="progress-rectangle"></div>
+      </div>
+    </div>
+    <hr style="margin: 20px 0; border: 1px solid #ddd" />
+    <div class="subject">
+      <h2>電磁</h2>
+      <div class="progress-container">
+        <div class="progress-rectangle"></div>
+        <div class="progress-rectangle"></div>
+        <div class="progress-rectangle"></div>
+        <div class="divider"></div>
+        <div class="progress-rectangle"></div>
+        <div class="progress-rectangle"></div>
+      </div>
+    </div>
+
+    <div class="subject">
+      <h2>アルゴ</h2>
+      <div class="progress-container">
+        <div class="progress-rectangle"></div>
+        <div class="progress-rectangle"></div>
+        <div class="progress-rectangle"></div>
+        <div class="divider"></div>
+        <div class="progress-rectangle"></div>
+        <div class="progress-rectangle"></div>
+      </div>
+    </div>
+
+    <div class="subject">
+      <h2>線型</h2>
+      <div class="progress-container">
+        <div class="progress-rectangle"></div>
+        <div class="progress-rectangle"></div>
+        <div class="progress-rectangle"></div>
+        <div class="divider"></div>
+        <div class="progress-rectangle"></div>
+        <div class="progress-rectangle"></div>
+      </div>
+    </div>
+    <hr style="margin: 20px 0; border: 1px solid #ddd" />
+    <div class="subject">
+      <h2>生命</h2>
+      <div class="progress-container">
+        <div class="progress-rectangle"></div>
+        <div class="progress-rectangle"></div>
+        <div class="progress-rectangle"></div>
+        <div class="divider"></div>
+        <div class="progress-rectangle"></div>
+        <div class="progress-rectangle"></div>
+      </div>
+    </div>
+
+    <div class="subject">
+      <h2>構造</h2>
+      <div class="progress-container">
+        <div class="progress-rectangle"></div>
+        <div class="progress-rectangle"></div>
+        <div class="progress-rectangle"></div>
+        <div class="divider"></div>
+        <div class="progress-rectangle"></div>
+        <div class="progress-rectangle"></div>
+      </div>
+    </div>
+    <hr style="margin: 20px 0; border: 1px solid #ddd" />
+    <div class="subject">
+      <h2>仏語</h2>
+      <div class="progress-container">
+        <div class="progress-rectangle"></div>
+        <div class="progress-rectangle"></div>
+        <div class="progress-rectangle"></div>
+        <div class="divider"></div>
+        <div class="progress-rectangle"></div>
+        <div class="progress-rectangle"></div>
+      </div>
+    </div>
+
+    <div class="subject">
+      <h2>英語</h2>
+      <div class="progress-container">
+        <div class="progress-rectangle"></div>
+        <div class="progress-rectangle"></div>
+        <div class="progress-rectangle"></div>
+        <div class="divider"></div>
+        <div class="progress-rectangle"></div>
+        <div class="progress-rectangle"></div>
+      </div>
+    </div>
+
+    <div class="subject">
+      <h2>微積</h2>
+      <div class="progress-container">
+        <div class="progress-rectangle"></div>
+        <div class="progress-rectangle"></div>
+        <div class="progress-rectangle"></div>
+        <div class="divider"></div>
+        <div class="progress-rectangle"></div>
+        <div class="progress-rectangle"></div>
+      </div>
+    </div>
+  </body>
+</html>
