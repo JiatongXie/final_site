@@ -1,5 +1,3 @@
-// require("dotenv").config(); // 加载环境变量
-
 const enableProgressClick = true; // 切换功能开启或关闭
 
 const JSONBIN_API_KEY = process.env.JSONBIN_API_KEY;
