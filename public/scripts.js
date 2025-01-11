@@ -1,4 +1,9 @@
+require("dotenv").config(); // 加载环境变量
+
 const enableProgressClick = true; // 切换功能开启或关闭
+
+const JSONBIN_API_KEY = process.env.JSONBIN_API_KEY;
+const BIN_ID = "67822f8ee41b4d34e475a8c5";
 
 document.addEventListener("DOMContentLoaded", () => {
   if (!enableProgressClick) return;
@@ -34,19 +39,25 @@ function saveProgress() {
     });
     progressData.push(subjectData);
   });
-  fetch("/api/progress", {
-    method: "POST",
+  fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
+      "X-Master-Key": JSONBIN_API_KEY,
     },
-    body: JSON.stringify(progressData),
+    body: JSON.stringify({ record: progressData }),
   });
 }
 
 function loadProgress() {
-  fetch("/api/progress")
+  fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+    headers: {
+      "X-Master-Key": JSONBIN_API_KEY,
+    },
+  })
     .then((response) => response.json())
-    .then((progressData) => {
+    .then((data) => {
+      const progressData = data.record;
       document.querySelectorAll(".subject").forEach((subject, subjectIndex) => {
         const subjectData = progressData[subjectIndex] || [];
         subject
