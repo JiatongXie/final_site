@@ -20,12 +20,12 @@ if (fs.existsSync("progressData.json")) {
 }
 
 // 读取进度数据
-app.get("/progress", (req, res) => {
+app.get("api/progress", (req, res) => {
   res.json(progressData);
 });
 
 // 保存进度数据
-app.post("/progress", (req, res) => {
+app.post("api/progress", (req, res) => {
   progressData = req.body;
   fs.writeFileSync("progressData.json", JSON.stringify(progressData));
   res.sendStatus(200);
